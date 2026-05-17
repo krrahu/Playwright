@@ -1,0 +1,61 @@
+ import {test,expect} from "@playwright/test";
+ //syntax
+ test("verfy the title",()=>{
+    console.log('sample test')
+ }
+ )
+=======================================isntallation===========================
+- install node js
+- install vs code editor
+node -v
+npm -v
+
+- Now create one folder> open the folder  in VS> open the terminal and entert npm init playwright@latest
+
+Note:- if we created new folder as workspace than again we have to insatall playwright .
+
+===================================Points to remember======================================================
+//---------selenium vs playwright-----------//
+-  selenium use w3c protocol i.e. client - server where it will open new connection for each action  like request and  response ,there are is browser specific driver
+-  playwright use web socket  only one time connection will open and once all cation perform thean connection will be closed, there are no browser specific driver
+-  no need to define browser name like webdriver driver = new Chromedriver(); automatically it take browser deatils fron config file and it will launch 
+ - playwright is faster than selenium
+
+//-------framework folder--------//
+node_modules --> all node js packages,module will available here
+package.json --> it is like pom.xml here we add all dependecies
+package-lock.json -->
+playwright.config.ts --> all configuration like browser, 
+
+//--------------------------------------//
+synchronus--> step by step execution (java, python ) --> step 1  and then  step 2 and then  step 3 
+Asynchronus--> parallel execution (Js,TS)
+
+it menas when there is multiple steps like --> step 1 , step 2, step 3  than  all steps  execution will done at time parallelly not sequence wise i.e. one by one 
+it will not wait step 1 to complte to run step 2
+
+note :- ther are some cases where Asynchronus can create issue like to perform step 2 step 1 must be execute  ( first access user deatis than login
+ to handle this issue we have to use Await statement ( which ever statement is retirnuing the promise we  have to write await statement ) so that untill step 1 finish step 2 will not execute
+
+- every statement in js, ts  will be  returning promise and if  we have are using  Await keyword than we have to make method as Asyn
+than define method as Asyn also because by deafault all statement ,methods in TS is also Asynchronus
+
+- if we will not use  Await than  promise will display  as pending hence it will not printing anything like page title 
+//-----------------------------------------//
+
+
+ ========================================commands========================================
+  ( test --> this is folder , first -> this one test case name , first2 -> this 2nd test case namespec default naming , ts typescript extension)
+
+npx playwright test --> to run all test from  folder
+npx playwright test first.spec.ts --> to run specific test from  folder  
+npx playwright test first.spec.ts first2.spec.ts--> to run multiple test from  folder  
+npx playwright test first.spec.ts --project=chrome --> to run test on specific browser 
+npx playwright test -g "keyword name" --> to  test based on keyword 
+npx playwright test --ui --> Tu run test on playwright ui mode
+npx playwright test first.spec.ts --debug --> Tu run test on playwright ui mode
+npx playwright test --headed--> to run test in ui mode
+npx playwright show-report --> to open last run in html report
+
+===========topics need to know=========
+what is  fixture,
