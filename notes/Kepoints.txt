@@ -20,6 +20,8 @@ Note:- if we created new folder as workspace than again we have to insatall play
 -  playwright use web socket  only one time connection will open and once all cation perform thean connection will be closed, there are no browser specific driver
 -  no need to define browser name like webdriver driver = new Chromedriver(); automatically it take browser deatils fron config file and it will launch 
  - playwright is faster than selenium
+ - playwright is auto waiting  but in selenium we need define implicitly 0r Explicitly 
+ - in build parallel execution is alreday define in playwright but in selenium we need to add code like cross browser
 
 //-------framework folder--------//
 node_modules --> all node js packages,module will available here
@@ -42,20 +44,407 @@ than define method as Asyn also because by deafault all statement ,methods in TS
 
 - if we will not use  Await than  promise will display  as pending hence it will not printing anything like page title 
 //-----------------------------------------//
+When ever user wants to perform some action on element like getText(), tovissible()  and if  it returns list of data then it will create confusion for playwright on which element action need to perform in that case we get Strict mode violation error  and In selenium we will address of element instead of text.
+In playwright  we will use methods allTextContents() & then loop , 
+And also we can use direct methods like  first, second, nth  to fetch single content using  textContent()
+In selenium to solve we have to use loop with methods like getText() and than perform action (refer  value select from drop down selection example)
 
+//--------Alert---------
+- in playwright we don't need to handled alreat automatically it will handle , in selenium we have handled explicity.
+-  once user click on alert/ dialog it will creates an event amnd these event will be sent to dialog handler to perform all required action on alert
+
+//------------frmaes---------//
+in selenium we use switchto().frame() -->frame  index, frame name,webelement
+in playwright we use farmeLocator()- all locators  and farme()-frame URL & frame names to handled frames
 
  ========================================commands========================================
-  ( test --> this is folder , first -> this one test case name , first2 -> this 2nd test case namespec default naming , ts typescript extension)
+( test --> this is prefix used for all TC ,tests --> this is folder , mytest -> this one test case name , mytest2 -> this 2nd test case name, 
+spec -->default naming , ts-->typescript extension)
 
-npx playwright test --> to run all test from  folder
-npx playwright test first.spec.ts --> to run specific test from  folder  
-npx playwright test first.spec.ts first2.spec.ts--> to run multiple test from  folder  
-npx playwright test first.spec.ts --project=chrome --> to run test on specific browser 
-npx playwright test -g "keyword name" --> to  test based on keyword 
-npx playwright test --ui --> Tu run test on playwright ui mode
-npx playwright test first.spec.ts --debug --> Tu run test on playwright ui mode
-npx playwright test --headed--> to run test in ui mode
+npx playwright test --> to run all AT test cases from  folder
+npx playwright test tests--> to run all AT test cases from specific folder  
+npx playwright test mytest.spec.ts --> to run specific AT test cases from  folder  
+npx playwright test tests/mytest.spec.ts --> to run specific AT test cases from  specific folder  
+npx playwright test mytest.spec.ts mytest2.spec.ts--> to run multiple AT test cases from  folder  
+npx playwright test mytest.spec.ts --project=chrome --> to run AT test cases on specific browser 
+npx playwright test -g "keyword name" --> to  run AT test cases based on keyword 
+npx playwright test --ui --> Tu run AT test cases on playwright ui mode
+npx playwright test mytest.spec.ts --debug --> Tu run AT test cases on playwright ui mode
+npx playwright test --headed--> to run AT test cases in ui mode
 npx playwright show-report --> to open last run in html report
+
+====================================PART 1==============
+isntallation, Asynchronus, Await, 
+Tu run test on playwright ui mode,Tu run test on debug mode,
+// we have not use Await that's why promise is coming as pending hence it not printing page title
+====================================PART 2=============
+LOCATORS:-
+- i selenium we have 8 locators
+-  in playwright we have inbuild locators , css , xpath 
+in playwright always first we have use to inbuild locators
+
+
+----------
+use Await when statement is returing anythings i.e. when  statement is returning or throwing any promise 
+use Await when we have perform some action or assertion on element like click, select,send key , 
+Do not use Await when statement is not returing anythings
+
+
+--------------------inbuild locators------------
+1. page.getByAltText()--> alt attributes, (it is attribute of an element) 
+
+2. .getByText()--> visible text(it is not attribute of an element , it is value ) 
+
+3. .getByRole()--> (it is not  attribute of an element, majorly tag name type) 
+//implicitly define role ( when tag and role name is same)
+// Explicitly define role ( when tag and role name is not same)
+
+
+// click on register and verify header register is visible or not 
+
+4. .getByLabel()--> it a tag name
+5.	page.getPlaceholder()--> (it is attribute of an element)
+6.	page.getByTitle()-->title attribute (it is attribute of an element)
+7.	page.getByTestId()--> 
+if attribute name get changes by developer in that cases Automation TC will fail to overcome this we need add testidattribute under Use block {} inside config file , like below :- 
+use:{
+testidAttribute:"changes attribute name"
+}
+Example :- 
+use:{
+testidAttribute:" data-pw"
+} 
+
+====================================PART 3=============
+as per playwright don't use xpath , in playwright first priority is to use playwright inbuild locators  > css> xpath 
+but in selenium maximum time we are using xpath7
+
+type of xpath -
+absolute, relative
+xpath methods:- 
+contains()--> textContent() & alltextconstent(), start-with(),text(), last(),postion()
+/--------------------/
+When ever user wants to perform some action on element like getText(), tovissible()  and if  it returns list of data then it will create confusion for playwright on which element action need to perform in that case we get Strict mode violation error  and In selenium we will address of element instead of text.
+In playwright  we will use methods allTextContents() & then loop , 
+And also we can use direct methods like  first, second, nth  to fetch single content using  textContent()
+In selenium to solve we have to use loop with methods like getText() and than perform action (refer  value select from drop down selection example)
+====================================PART 4=============
+xpath axis :-
+in css --> we can navigate only in one direction forward only 
+in xpath --> we can navigate  in both direction forward and backward 
+
+
+====================================PART 5=============
+
+SS Locators f
+
+::--> any where
+: --> immidiate child i.e. next element
+====================================PART 6=============
+when we use expect alomng with element we will use await -->
+if we use expaect with value than Await is not needed
+====================================PART 7=============
+1. Drop down selecton
+- based select tag (select option) --> single select and multiselct
+- Bootstart/java --> auto suggested basedon leyword , hidden drop down
+
+
+for navigation from one element to next element we use ==>  / for xapth , > or  space for CSS 
+// it will print all options in form arrays 
+//to print options in form text we have use for loop 
+// trimming is optional if extra space and values is coming than use trim() or else we can leave
+case 1:- when drop down values all already displaying in sorted order --> comparing origin list with sorted
+case 2:- when drop down values are not in sorted order --> comparing origin list with sorted
+
+
+Note:- if we do not use ... inside array it will  override the original & same array will pass to other call and in on console we see sorted in place
+
+
+====================================PART 8 =============
+Bootstrap/javascript -->  these are auto suggested drop down
+
+Type 1:- auto suggested based on keyword but can’t inspect 
+Type 2:- hidden drop down --->when we try to inspect drop down values will disappears in that we  can use these logic 
+Type 3:- not hidden drop down ---> when we try to inspect drop down values will not disappears (selenium one)
+
+
+case 1:- when we enter value if we inspect it to find locator for all option it will disappears in that case use any one logic from below
+to handle hidden drop down we use any one below approach
+- use debugger so that screen will be freeze and than find the element
+- from sources
+-  ctrl+shift+p -->emulate focused--> screen will freeze --> now we can inspect element
+
+
+
+====================================PART 9 =============
+locvator is interfcae
+map() --> interfcae, it return string
+
+-----extract text--------
+1. InnerText() vs textContent()
+- it will work for single element
+textContent () --> return text of element with space ,return null or string ,all element are available in form of locators
+innerText () --> return exact text of element without space , return only string
+
+2. AllInnerText() vs AlltextContent()
+- it will work for group of element
+it will return data in Array , without using loop we can get the all data in arrya form
+
+// if space is coming in o/p use trim to remove space by using map()
+
+
+3. All() - convert Locators---> LOCATOR[]
+
+all element are available in form of locators
+locators stores in form of Arrya 
+
+---------Table content---------
+locator chaining -
+1. static web table
+2. Dynamic web table
+3. paggination web table
+
+Step:-
+first capture the whole table data into variable
+
+
+
+====================================PART 10 =============
+2. Dynamic web table--> when data keep changes on each time page is refreshed
+3. paggination web table 
+
+
+// it will return all row count based value selected in entry per page  drop-down , by using we can get count and compare the value
+
+
+
+
+====================================PART 11 =============
+Handle jQuery & Bootstrap Date Pickers
+
+
+====================================PART 12 =============
+Handle Dialogs(Alert,Confirm&Prompt),Frames & Inner Frames 
+
+1. Handle Dialogs
+
+- in playwright we don't need to handled alreat automatically it will handle , in selenium we have handled explicity.
+- once the alert is hanlded it will perform action and close the alert user will not be able to see the dialog during run time because it is beign handled by playwright.
+- in order to perform any action  before & after handling i.e. before closing  alert like gettext from dialog,assertion,accept & dismiss alert, we need to write 
+ all these code under dialog handler method.
+ - once user click on alert/ dialog event will be created and sent to dialog handler
+flow:- 
+first create event (open alert)--> than pass that event to alert/dialog handler -(page.on('akert handler logic',(dialog)=>{});
+
+Note:- if we put alert handler after event it will not work because alert is alreday handled by playwright  and it will be not able to caputre event.
+-we have 3 types of alert/dialog :- 
+Alert()
+Confirm()
+Prompt()
+
+Prompt Alert:-
+// click prompt alert> enter text on alert> click on ok /cancel > verify the message
+// before entering text we can check default value , if we wants to modify  the exiating value with new text
+ we should pass the message while accepting the alert and than verify the message
+ 
+
+2. Frames & Inner Frames 
+
+Frames:-
+page.frames()--> it will return array of frames.
+
+- if we are using farme() to find the frame --> in this case we can use only URL of frame or frame name to find/locate the frames
+- if we are using farmeLocator() to find the frame --> in this case we can use any type of  locator like id, class, attribute   to find  the frames
+
+approach 1 using  farme() &  approach 2 using farmeLocator() --> these are ways by which we can find the frames and perform the action
+
+- inner frames.
+=======================================PART 13==========
+
+How To Work with Browser Context, Tabs & Pages/Popups 
+
+
+Browser Context --> it is used to create our on context in different browser at one time , we can use this to run scripts in n number of tabs or browser at a time 
+if we are defing browser context than no need to call/ use direct  browser & context page under test ().
+
+it similar like window handles in selenium but in selenium  for few this we need to move the control to page but in playwright automatically control will go
+
+when ever any even got created we need some halder to capure the event ,
+open new tab is an event and to capture the event we have used context.waitForEvent();
+but issue is  both sholud triggered a one shot that; we have to use array concept like - promise.all(); so that it handled both at same time.
+
+qusetion:- in playwright we don't need to swicth control when we are working with multiple tabs/pages? 
+
+
+=======================part 14===================
+Auto waiting, Timeouts, Assertions & Codegen
+---------------------------------------------
+1. Auto waiting, --> before performing any action it will go actionbility checks 
+-  this work for both action and assertion , 
+-  by default  it have force action, assertion mechnism,
+
+force action:- before performing any action it will not go actionbility checks 
+
+-  to avoid actionbility checks we can use force action , it means it will not verify  actionbility checks i.e. Visible, stable,receive Events ,enabled, editable,
+ 
+ Action:- ( find locator + performing action) , default time wait -30 sec ,
+ Assertions:-  (default time -5 sec), 
+ 
+
+Question:- how Auto waiting logic in playwright tackle/remove falky test cases since compare to  selenium ? because in some how both places we are using time waitForEvent
+comment :- actionbility checks ,
+
+timout or thread.sleep ()
+
+falky test cases --> some time pass, some failed, 
+-----------------------------------------
+2. Timeouts:- ( how long Test and assertion should wait defing at local & global)
+- it works for entire test or specific to assertion only.
+- we can configure timout at test level in 2 ways - local inside test and at global inside configuration.ts 
+ test timeout :- default time wait -30 sec , test.slow() will tripple the time i.e. 90 sec
+ Expect timeout (Assertions):-default time -5 sec), 
+
+- local timeout priority> global timeout 
+
+--------------------------------
+3. Assertions:-
+two type Assertions:-
+Auto-retrying assertion --> 
+- it follow  timeout ,  on locators or page, need to interact with web element, specify time out, these are non-synchronous so we have to use Await in front of assertion
+non-retrying assertion --> 
+- it do not follow  timeout , on values , no need to interact with web element, no need to specify time out, these are synchronous 
+so no need of  Await in front of assertion
+
+
+hard vs soft assertion :- 
+// Hard Assertions (any step failed it will stop execution rest of the code) 
+// Soft Assertions (any step failed it will continue execution of code) 
+
+----------------------------
+
+4. Codegen ( Test  generator feature)
+we can generate the code using playwright codegen inspector on web browser, mobile device browser 
+
+Step:- 
+for Webpage:-
+- Open VS and type this - npx playwright codegen  --> it will open playwright inspector tool and webpage 
+- now on webpage perform the steps as per requirement and stop recording--> for each steps it will generate the automation scripts
+- 
+- now copy the code from inspector and create one .ts file in VS and paste it ( if wants remove any steps we can do)
+- now run the script
+
+Note:-here we are manualy creating .ts file  if we wants to this automatically just use below command automatically it create test cases.
+
+on specific browser==>   npx playwright codegen  -o tests/codegentest.spec.ts --browser firefox  
+
+automation way to create ts test file --> npx playwright codegen  -o tests/codegentest.spec.ts --
+
+for mobile device/ browser :-
+
+if we wants to do code test generator in on any specific mobile device/ browser we can do by using below command and rest all step will be similar
+ npx playwright codegen  -o tests/codegentest.spec.ts --device "iphone 15"
+
+---------debug-------
+run below command it will open playwright inspector in debug mode. 
+npx playwright codegen  -o tests/codegentest.spec.ts --headed --debug
+
+=======================part 15===================
+
+ Trace Viewer| Capture Screenshots & Videos | Flaky Tests (Session 15)
+
+=======================part 16===================
+ Grouping Tests | Hooks | Annotations & Tags (Session 16)
+
+Trace Viewer| Capture Screenshots & Videos | Flaky Tests
+
+1. screenshots:-
+locally ( define at test level) and globally ( define under config file)
+
+Locally:-
+how maany ways we can take screenshots:-
+-  visible part only
+-  full page 
+- element screenshot for particular section ( using locator to take screenshot)
+- entire section screenshot ( for this also we have use element screenshot)
+
+globally :- (under playwright.config.ts  file)--> (mostlt we use global)
+- it  will generate under testresult folder.
+
+use{
+screenshot:'off'  --> if we set to this no screenshots will be taken
+screenshot:'on'   --> if we set to this  screenshots will be taken on complete test execution  without issue
+screenshot:'on-first-failure' --> if we set to this  screenshots will be taken on first time failing of test (most of the time we use this option)
+screenshot:'only-on-failure' --> if we set to this  screenshots will be taken on each time test will fail
+}
+
+Question:-
+-  to take full page screenshot through global is it possible ?
+- from global config it's taking full page or visible part screenshot
+
+2. Recording:- (mostlt we use global)
+- globally(under playwright.config.ts  file)
+- it  will generate under testresult folder.
+
+use{
+video:'off'  --> if we set to this no video  will be taken
+video:'on'   --> if we set to this  video will be taken on complete test execution without issue
+video:'on-first-retry' --> on first time failure 
+video:'retain-on-failure' -->  if we set to this  video will be taken on  failing of each time test (most of the time we use this option)
+video:'retry-with-video' -->
+}
+
+Question :-  can we able to do video through local at test level?
+
+Note: 
+- retry --> it meana re run 
+- video ,trcae can only seen through html report only , screenshot can be seen directly
+- to take screenshot,video we don't need to write code seperately in playwright we use congif file but in selenium we have write seperate code for this
+-  if we are using global option to take screenshot , video we don't define anything at test level , define all thing in config file only.
+
+3. Trace Viewer:-
+
+-  By 3 ways we can create & see the trace file .
+
+first way :- (playwright.config.ts)
+- it will captures all action,event , log , error, console,sources code,locators and so on , we need to just download the zip file and share it to dev.
+- define at globally under playwright.config.ts  file.
+- trace file will generate under testresult folder under HTML report , download and unzip file.
+
+use{
+trace:'off'  --> if we set to this no trace  will be capture
+trace:'on'   --> if we set to this  trace  will be capture on complete test execution without issue
+trace:'on-all-retries' --> 
+trace:'on-first-retry' --> if we set this it will capture trace on first time failure  
+trace:'retain-on-failure' --> if we set this it will capture trace on each failure (most of the time we use this option)
+trace:'retain-on-first-failure' -->if we set to this   it will capture trace on first failure
+trace:'retry-with-trace' -->
+}
+
+2nd way:- (usimg command --> npx palywright test tests/tracing.spec.ts --headed --trace on)
+Question :-  can we able to do trace through local at test level?
+comment:- if we wants to view trce for any particular test we have to use below command:-
+npx palywright test tests/tracing.spec.ts --headed --trace on
+
+3rd way:- code (programmitically)
+
+By defying these function at  test level  context.tracing.start() and context.tracing.stop()
+- from 3rd way trace file will not generate under testresult folder because it will not be attched with HTML report.
+- it will generate only steps.
+- trace report will generate at project level but we can't view it directly , to view it we need to pass below command on terminal -
+   npx palywright show-trace trace.zip
+   
+   -   we can use online trace file viewer , just drag & drop 
+
+
+4. flaky test:-
+-  test cases which sometime pass, sometime fail these type of test cases are flaky test.
+- to re-run flaky test we can use retries logic
+-  config file:- under config file we need to define it like --> retries:3,
+-  Test level:-  we can run it through command line at test level --> npx playwrite test tests/falkyte.spec.ts  --retries=3
+
+- retry /retries--> it means re run
 
 ===========topics need to know=========
 what is  fixture,
+
+===========playwright error =========
