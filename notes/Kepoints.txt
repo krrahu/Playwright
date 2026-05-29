@@ -459,5 +459,11 @@ callback function, arrow function, return keyword, even object
 lecture -12, 
 ?:--> we use ? when  there will 2 types of return like string, null 
 event 
+MCP, RGA, 
+Token-efficient browser automation for coding agents like Claude Code and GitHub Copilot.
+Playwright CLI
+Playwright MCP
+annotation in playwright,
 
 ===========playwright error =========
+get Strict mode violation error  
