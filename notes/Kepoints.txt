@@ -351,11 +351,7 @@ npx playwright codegen  -o tests/codegentest.spec.ts --headed --debug
 =======================part 15===================
 
  Trace Viewer| Capture Screenshots & Videos | Flaky Tests (Session 15)
-
-=======================part 16===================
- Grouping Tests | Hooks | Annotations & Tags (Session 16)
-
-Trace Viewer| Capture Screenshots & Videos | Flaky Tests
+ Trace Viewer| Capture Screenshots & Videos | Flaky Tests
 
 1. screenshots:-
 locally ( define at test level) and globally ( define under config file)
@@ -444,7 +440,24 @@ By defying these function at  test level  context.tracing.start() and context.tr
 
 - retry /retries--> it means re run
 
+=======================part 16===================
+ Grouping Tests | Hooks | Annotations & Tags (Session 16)
+
+=======================part 17===================
+
+=======================part 18===================
+
+=======================part 19===================
+
+=======================part 20===================
+
 ===========topics need to know=========
 what is  fixture,
+revision topic of TS :-
+Template literal -->'hello ${varaible name}';
+callback function, arrow function, return keyword, even object
+lecture -12, 
+?:--> we use ? when  there will 2 types of return like string, null 
+event 
 
 ===========playwright error =========
