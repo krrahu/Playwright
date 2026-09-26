@@ -4,6 +4,7 @@
     console.log('sample test')
  }
  )
+ test and expect is inbuilt function from palywright packages
 =======================================isntallation===========================
 - install node js
 - install vs code editor
@@ -58,7 +59,8 @@ in selenium we use switchto().frame() -->frame  index, frame name,webelement
 in playwright we use farmeLocator()- all locators  and farme()-frame URL & frame names to handled frames
 
  ========================================commands========================================
-( test --> this is prefix used for all TC ,tests --> this is folder , mytest -> this one test case name , mytest2 -> this 2nd test case name, 
+( test --> this is prefix used for all TC ,
+tests --> this is folder , mytest -> this one test case name , mytest2 -> this 2nd test case name, 
 spec -->default naming , ts-->typescript extension)
 
 npx playwright test --> to run all AT test cases from  folder
@@ -67,7 +69,7 @@ npx playwright test mytest.spec.ts --> to run specific AT test cases from  folde
 npx playwright test tests/mytest.spec.ts --> to run specific AT test cases from  specific folder  
 npx playwright test mytest.spec.ts mytest2.spec.ts--> to run multiple AT test cases from  folder  
 npx playwright test mytest.spec.ts --project=chrome --> to run AT test cases on specific browser 
-npx playwright test -g "keyword name" --> to  run AT test cases based on keyword 
+npx playwright test -g "keyword name" --> to  run AT test cases based on keyword of test method name
 npx playwright test --ui --> Tu run AT test cases on playwright ui mode
 npx playwright test mytest.spec.ts --debug --> Tu run AT test cases on playwright ui mode
 npx playwright test --headed--> to run AT test cases in ui mode
@@ -77,32 +79,55 @@ npx playwright show-report --> to open last run in html report
 isntallation, Asynchronus, Await, 
 Tu run test on playwright ui mode,Tu run test on debug mode,
 // we have not use Await that's why promise is coming as pending hence it not printing page title
+// fixture --> it is like global varaible example :- page,browser,locators,expect,
+// expect --> it is like assertion , anything if we verify on page we can use this
+// which ever any statement will return the promise in the next statement we have to use Await, and when use Await we have make method as Asynchronus like async
+ (await is like confirmation of any action like promise --> resolve,failed,rejected )
+// use Wait when it return promise or when we r+are perfomring any action on element
+
+Worker = browsers 
+test= test method 
+ Total Test = number * number of browser on which script run 
+ 1 test ,1 browser  than --> Total Test  = 1 and Worker = 1
+ 1 test ,2 browser  than -->Total Test  =2 and Worker = 2
+ 1 test ,3 browser  than --> Total Test  = 3 and Worker = 
+ 
+  2 test ,1 browser  than --> Total Test  = 2 and Worker = 1
+ 2 test ,2 browser  than -->Total Test  =4 and Worker = 2
+ 2 test ,3 browser  than --> Total Test  = 6 and Worker = 3
+
 ====================================PART 2=============
 LOCATORS:-
 - i selenium we have 8 locators
 -  in playwright we have inbuild locators , css , xpath 
 in playwright always first we have use to inbuild locators
-
+- in palywright when we find any locator return type will be always Locators hence we define it and import it like webelement in selenium
+ import {test,expect,Locator} from "@playwright/test";
+  const log:Locator=await page.getByAltText("element name") // if we wants to use element for multiple action in that return locator or we use it directly also like below
+  await page.getByRole("link",{name:'Register'}).click(); 
 
 ----------
 use Await when statement is returing anythings i.e. when  statement is returning or throwing any promise 
 use Await when we have perform some action or assertion on element like click, select,send key , 
 Do not use Await when statement is not returing anythings
 
+In- build locators>css>xpath
+inbuild locator --> we have to get element 
+xpath --> it uses DOM structure to find the element like travelling to element 
 
 --------------------inbuild locators------------
 1. page.getByAltText()--> alt attributes, (it is attribute of an element) 
 
-2. .getByText()--> visible text(it is not attribute of an element , it is value ) 
+2. page.getByText()--> visible text(it is not attribute of an element , it is value ) 
 
-3. .getByRole()--> (it is not  attribute of an element, majorly tag name type) 
+3. page.getByRole()--> (it is not  attribute of an element, majorly tag name type) 
 //implicitly define role ( when tag and role name is same)
 // Explicitly define role ( when tag and role name is not same)
 
 
 // click on register and verify header register is visible or not 
 
-4. .getByLabel()--> it a tag name
+4. page.getByLabel()--> it a tag name
 5.	page.getPlaceholder()--> (it is attribute of an element)
 6.	page.getByTitle()-->title attribute (it is attribute of an element)
 7.	page.getByTestId()--> 
@@ -123,29 +148,87 @@ type of xpath -
 absolute, relative
 xpath methods:- 
 contains()--> textContent() & alltextconstent(), start-with(),text(), last(),postion()
+error: strict mode violation --> when it return multiple value but we try to perform action in single element in this case we will get this erro
+on multiple element we can't perform single action
 /--------------------/
 When ever user wants to perform some action on element like getText(), tovissible()  and if  it returns list of data then it will create confusion for playwright on which element action need to perform in that case we get Strict mode violation error  and In selenium we will address of element instead of text.
 In playwright  we will use methods allTextContents() & then loop , 
 And also we can use direct methods like  first, second, nth  to fetch single content using  textContent()
 In selenium to solve we have to use loop with methods like getText() and than perform action (refer  value select from drop down selection example)
 ====================================PART 4=============
-xpath axis :-
-in css --> we can navigate only in one direction forward only 
-in xpath --> we can navigate  in both direction forward and backward 
+xpath axis -->self,parent,child,ancestor, descendent, following,preceding,following-sibling,preceding-sibling
+CSS is faster than xpath 
+in css --> we can navigate only in one direction forward only , 
+in xpath --> we can navigate  in both direction forward and backward using xpath axes
 
 
 ====================================PART 5=============
 
-SS Locators f
+CSS Locators f
 
 ::--> any where
 : --> immidiate child i.e. next element
+
+1. id--> tag with id
+tag#id --> e.g input#small-searchterms
+
+
+2. class--> tag with class
+tag.class--> e.g input.search-box-text.ui-autocomplete-input  or .search-box-text.ui-autocomplete-input
+
+3. attributes --> tag with any attirbutes
+ syntax-->  tag[attribute='attribute values']  or [attribute='attribute values']
+ example --> input[name=q] or input[name='q'] or or [name='q']
+
+ 4. attributes --> tag with class and  attirbutes ( mix of two 2 types like class + attributes)
+ syntax--> tag.class[attribute='attribute values']   or .class[attribute='attribute values']  
+example --> input.search-box-text[name='q']  or .search-box-text[name='q']
+
+ 5. attributes --> tag with id  and  attirbutes ( mix of two 2 types like id + attributes)
+syntax--> tag#id[attribute='attribute values']   or #id[attribute='attribute values']
+
+<--------- absoulte vs Relative---------->
+// absoulte  css -->(only top to button i.e 1 way only)  --> this not recomended to use in playwright
+/*html>body>div>h1  
+html>body>div>div>p[id=para1] or html>body>div>div>p[#=para1]
+html>body>div>div>p[id=para1][class=sub] --> mix of two attributes
+html>body>div>div>p[class=sub] or html>body>div>div>p[.=sub]
+*/
+
+// Relative CSS--> (directly jump tp element , only top to button i.e 1 way only) , parent > child not in reverse
+/*--> p#para1 , p.main, p[id=para1] or [id=para1], p[class=sub] or [class=sub]
+--> body>div>* , body>div>*:last-child ,body>div>*:first-child ,body>div>*:nth-child(3)
+--> p[class*='ai'] --> contians
+-->p[class$='in'] --> end with
+-->p[id='pa'] --> strat with 
+ --> exaplme of mix of 2 attribyutes 
+ p[id=para1][class=sub]  --> both should match
+ p[id=para1 and class=sub]  --> both should match
+ p[id=para1 opr  class=sub]  --> one  should match
+
+ p[id='para1'] :not([class='sub'])  --> 1st is true 2nd should be false i.e.invalid
+ p:not([id='para1'] ) [class='main']  --> 1'st is invalid 2'nd is valid
+
+  p:not([id='para1']):not([class='main']) -->
+
+   p[id='para1']+p --> immidaite sibling element with tag name p ( + icon means it will find child element)
+   p[id='para1']+* --> capture all sibling element with tag name p
+ */
 ====================================PART 6=============
-when we use expect alomng with element we will use await -->
-if we use expaect with value than Await is not needed
+when we use expect on  element with some action perfroming on element  we will use await because it return promise -->
+if we use expaect with value not element  than Await is not needed because it not return promise 
+
+
+
+
 ====================================PART 7=============
+two types of drop-down :- 
+1. static drop-down
+2. Dynamic/auto suggested dropp-down ( options keeps changing Dynamically)
+3. Hidden drop down
+
 1. Drop down selecton
-- based select tag (select option) --> single select and multiselct
+- based select tag (select tag option) --> single select and multiselct
 - Bootstart/java --> auto suggested basedon leyword , hidden drop down
 
 
@@ -351,11 +434,7 @@ npx playwright codegen  -o tests/codegentest.spec.ts --headed --debug
 =======================part 15===================
 
  Trace Viewer| Capture Screenshots & Videos | Flaky Tests (Session 15)
-
-=======================part 16===================
- Grouping Tests | Hooks | Annotations & Tags (Session 16)
-
-Trace Viewer| Capture Screenshots & Videos | Flaky Tests
+ Trace Viewer| Capture Screenshots & Videos | Flaky Tests
 
 1. screenshots:-
 locally ( define at test level) and globally ( define under config file)
@@ -444,7 +523,156 @@ By defying these function at  test level  context.tracing.start() and context.tr
 
 - retry /retries--> it means re run
 
+=======================part 16===================
+ Grouping Tests | Hooks | Annotations & Tags (Session 16)
+
+=======================part 17===================
+Parallelism | Parallel Testing
+ 1.parallel mode 
+ - fullyparallel:true
+- worker will be atleast 1 which mean serial execution.
+- worker will be allocated depend on number of test
+- if worker is not define than it take worker based on numner of test ( 1 test 1 worker, 5 test 5 worker...)
+
+ note:- 
+-  if there is multiple test but worker is define 1 than it will run test in serial mode eventhough flag is true.
+ - if there is only one test but & worker define as 1 than it will run parallel  mode because worker is matching with test.
+
+ 
+2. serial wise  / sequence wise
+- fullyparallel:false
+- worker will be always 1
+
+ 3. we can also confgure parallel mode at browser under playwright.connfig.ts  file.
+  we can also run test from command line on specific browser  like below :-
+  npx playwright test tests/paralleltesting.spec.ts --project firefox
+ 
+ 
+Note:-
+-  if fullyparallel:true and workers:3  is define as more than 1, still we can run test in serial wise we need to define below code at test level
+ test.describe.configure({mode:'serial'})
+ -  we can also confgure worker during run through command line --> npx playwright test tests/paralleltesting.spec.ts --worker=4
+ 
+ 
+ 
+=======================part 18===================
+Parameterization | Data Driven Testing | JSON, CSV & Excel 
+
+
+=======================part 19===================
+
+ 1. HTML,JSON,JUNIT, list, dot:-
+ configuration:-
+ to generate the report from palywright we need to congfiure it under playwright.config.ts file , here  we will define report type and when to generate report like always, never, on failure like below:-
+- report: 'html', --> just like report type html we can add other type also like --> list , line, dot
+  report: 'line', 
+  report: 'list',
+  
+ report:[['html' ,{open:'always'}]], 
+ report:[['list' ,{open:'never'}]],
+ 
+ 
+-  by default report will generate under playwright-reports folder.
+ - if we wants to generate the report in any aspecific folder we can do , we need to just specify report type & location name together under playwright.config.ts like below
+ reporter:[['html' ,{open:'always','outputfolder':'html-report'}]]  --> html-report is folder name where reports will generate.
+ reporter:[['html' ,{open:'always',outputfolder:'html-report'}]] 
+ 
+ view reports:-
+ - to open the reports from default folder  --> npx playwright show-report
+  - to open the reports from custom/specific  folder  --> npx playwright show-report html-report   
+ Note:- html-report is folder name inside which html report will available)
+  
+  - via command line --> --> npx playwright test --reporter=html
+
+ 
+ 2. Allure Reports:-
+ 
+ steps:-
+ 1. install allure playwright package --> npm install -D allure-playwright
+ 2. configure path where report will generate under playwright.config.ts file 
+ - only allure :-
+ reporter:[['allure-playwright']],
+ 
+ - allure along with other reports :-
+  reporter:[['html' ,{open:'always','outputfolder':'html-report'}],
+  ['List'],
+['line'],
+['allure-playwright']
+],  
+Note:- html-report is folder name where reports will generate.
+
+ 3 (to generate & view allure report)
+ - on CMD line 0r terminal --> npm install -g allure-commandline
+ 
+ 4. after step 3 installation complte one folder name allure will created under c:drive>program files>allure-2.32.0
+ 
+5. configure the path  under enviornment varaibles 
+ 
+ 
+6. to generate the report 
+7. to open the report on browser
+ 
+ 
+ Keypoints:- 
+ - after step 1 & 2 if we run test than report will be generated like this  but we can't view it 
+- to view it  we have to  generate the reports first so need to  complete the step 3,4,5,6 .
+- step 7 to open generated reports in browser
+
+
+Custome Reports:-
+- Write code which capture test cases status like onBegin , OnTestBegin, OnTestEnd, OnEnd in .ts test file.
+-  also configure reporter name  in config file like below
+  reporter:[['./my-custom-reporter.ts']],
+
+=======================part 20===================
+
+AI-Powered Test Automation with Playwright MCP, GitHub Copilot & VSCode (Playwright + TypeScript)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ===========topics need to know=========
 what is  fixture,
+revision topic of TS :-
+Template literal -->'hello ${varaible name}';
+callback function, arrow function, return keyword, even object
+lecture -12, 
+?:--> we use ? when  there will 2 types of return like string, null 
+(this ternary opearator use like this--> condition?true ouput:false output))
+
+event 
+MCP, RGA, 
+Token-efficient browser automation for coding agents like Claude Code and GitHub Copilot.
+Playwright CLI
+Playwright MCP
+annotation in playwright,
+
+-----js/ts---------
+for of loop vs for in loop(array) vs for each --> id all works same what is point to 3 types in js & Ts 
+
+'' --> template literal use this when user wants to call any varaible inside a string and string is in '' not in "".
+let obj={
+   item:"pen",
+   price:12,
+};
+-----
+'the cost of ${obj.item} is ${obj.price} rupees';
+"the cost of", obj.item , "is" obj.price, "rupees");
+
+\n  next line
+\t  give one tab space b/w words example apna\tCollege o/p -> apna    College
 
 ===========playwright error =========
+get Strict mode violation error  
