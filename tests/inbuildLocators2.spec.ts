@@ -4,6 +4,7 @@
 
  )*/
 
+ //<==============playwright inbuild locators==========>
  // Locator :1 -->page.getByAltText() 
  //it is used to locate an element, usually image, by its text alternative.
 

@@ -223,10 +223,11 @@ if we use expaect with value not element  than Await is not needed because it no
 
 ====================================PART 7=============
 two types of drop-down :- 
-1. static drop-down
-2. Dynamic/auto suggested dropp-down ( options keeps changing Dynamically)
-3. Hidden drop down
+1. static drop-down  --> we use select tag , we use inbuild methods
+2. Dynamic/auto suggested drop-down ( options keeps changing Dynamically based on keyword) --> these are Bootstrap/javascript  we need define our own logic
+3. Hidden drop down ---> we use Bootstrap/javascript 
 
+<--------------------------->
 1. Drop down selecton
 - based select tag (select tag option) --> single select and multiselct
 - Bootstart/java --> auto suggested basedon leyword , hidden drop down
@@ -251,11 +252,13 @@ Type 2:- hidden drop down --->when we try to inspect drop down values will disap
 Type 3:- not hidden drop down ---> when we try to inspect drop down values will not disappears (selenium one)
 
 
-case 1:- when we enter value if we inspect it to find locator for all option it will disappears in that case use any one logic from below
-to handle hidden drop down we use any one below approach
-- use debugger so that screen will be freeze and than find the element
-- from sources
--  ctrl+shift+p -->emulate focused--> screen will freeze --> now we can inspect element
+Note:- when we enter value if we inspect it to find locator for all option it will disappears in that case use any one logic from below
+to handle hidden drop down we use any one below approach:- 
+- 1st Way --> use debugger so that screen will be freeze and than find the element
+- 2nd  Way -->  from sources
+- 3rd Way -->  open dev tool> ctrl+shift+p -->type -emulate focused and select the option --> screen will freeze --> now we can inspect element> after againg we have open cmd (ctrl +shift+p) >select a=emulate do not focused --> values will disaper from DOM
+
+
 
 
 
@@ -530,7 +533,9 @@ By defying these function at  test level  context.tracing.start() and context.tr
 Parallelism | Parallel Testing
  1.parallel mode 
  - fullyparallel:true
-- worker will be atleast 1 which mean serial execution.
+ - by default worker will be 1 if we don't define it , if ther fullyparallel:true & worker is 1 than it will be serial execution not parallel
+- by default worker will be always depend on numner of test , if we define worker as 1 but there is 2 test than worker will be alwyas 2 not 1.
+- if we define our worker than define it in config file than it take from config  not as per number of test()
 - worker will be allocated depend on number of test
 - if worker is not define than it take worker based on numner of test ( 1 test 1 worker, 5 test 5 worker...)
 
@@ -541,7 +546,7 @@ Parallelism | Parallel Testing
  
 2. serial wise  / sequence wise
 - fullyparallel:false
-- worker will be always 1
+- worker will be always 1 even though we define the worker more than 1 
 
  3. we can also confgure parallel mode at browser under playwright.connfig.ts  file.
   we can also run test from command line on specific browser  like below :-

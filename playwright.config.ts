@@ -12,15 +12,28 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests',
+  //testDir: './tests', --> specific folder name 
+    testDir: '.',// --> current project 
+
+  /* Run tests using tags */ 
+  //grep:/@sanity/,
+  //grepInvert:/@regression/,
+  // grep:/@regression/,
+  //  grep:/(?=.*@sanity)(?=.*@regression)/
+
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: true, // not is seqquentially, but in parallel mode ( randomly)
+//fullParallel: false, //  run in sequence wise
+
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  // retries: process.env.CI ? 2 : 0, //---> use this when we wants to run it from CI cd
+  retries:3, //-->  retry locally 
+
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
+  //workers: 3, //-->  run locally in 3 workers
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -29,8 +42,21 @@ export default defineConfig({
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    //trace: 'on',
+
+    /* Capture screenshot on failure & pass*/
+   //screenshot: 'only-on-failure',
+   //  screenshot: 'on',
+
+       /* Capture video on pass & fail */
+    //video:'on',
+     //video:'retain-on-failure',
   },
+
+
+
+  /* Global timeout */
+  // timeout: 5000,
 
   /* Configure projects for major browsers */
   projects: [

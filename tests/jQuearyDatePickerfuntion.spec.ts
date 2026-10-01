@@ -11,18 +11,25 @@ import {test,expect,Locator,Page} from"@playwright/test";
        // Step 1- validating year and month is selected as per target date data
      while(true)
      {
-       const currentMonth=await page.locator(".ui-datepicker-month").textContent();   
-       console.log("text of current month:",currentMonth);
-       const currentYear=await page.locator(".ui-datepicker-year").textContent();   
+             const currentMonthRaw=await page.locator(".ui-datepicker-month").textContent();   
+             const currentMonth = (currentMonthRaw || '').trim();
+             console.log("text of current month:",currentMonth);
+             const currentYearRaw=await page.locator(".ui-datepicker-year").textContent();   
+             const currentYear = (currentYearRaw || '').trim();
 
-     if (currentMonth===targetMonth && currentYear===targetYear)
+         // Accept month as either name (e.g., "June") or zero-padded number ("06").
+         const targetMonthNormalized = isNaN(Number(targetMonth))
+             ? targetMonth // assume month name supplied
+             : new Date(Number(targetYear), Number(targetMonth) - 1, 1).toLocaleString('en-US', { month: 'long' });
+
+         if (currentMonth === targetMonthNormalized && currentYear === targetYear)
      {
         break;
      }
-     if(isFuture)
-     {
-      await page.locator(".ui-datepicker-next").click(); //future date-->
-     }
+    if(isFuture)
+    {
+     await page.locator(".ui-datepicker-next").click(); //future date-->
+    }
      else
      {
      await page.locator(".ui-datepicker-prev").click(); // Past date
@@ -61,8 +68,8 @@ import {test,expect,Locator,Page} from"@playwright/test";
      const month='06';
      const date='15';
 
-     // calling funtion --> selectDate() // mm//dd//yy/page/boolean
-     selectDate(year,month,date,page,true); // future date -  true , past date -false
+    // calling funtion --> selectDate() // yyyy//MM//dd/page/boolean
+    await selectDate(year,month,date,page,true); // future date -  true , past date -false
      const expectedDate='06/15/2027';   // mm/dd/yyyy
      //  assertion
      //await expect(datePicker).toHaveValue(expectedDate);
